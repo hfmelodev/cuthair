@@ -1,0 +1,11 @@
+services:
+  service-apis-apps:
+    container_name: container-apis-apps
+    image: bitnami/postgresql:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=db-cuthair
+
