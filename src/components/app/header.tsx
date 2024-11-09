@@ -1,7 +1,7 @@
-import { MenuIcon, Scissors } from "lucide-react";
+import { MenuIcon, Scissors } from 'lucide-react'
 
-import { Button } from "../ui/button";
-import { Card, CardContent } from "../ui/card";
+import { Button } from '../ui/button'
+import { Card, CardContent } from '../ui/card'
 
 export function Header() {
   return (
@@ -17,5 +17,5 @@ export function Header() {
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }

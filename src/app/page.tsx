@@ -1,9 +1,9 @@
-import { SearchIcon } from "lucide-react";
-import Image from "next/image";
+import { SearchIcon } from 'lucide-react'
+import Image from 'next/image'
 
-import { Header } from "@/components/app/header";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Header } from '@/components/app/header'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 export default function Home() {
   return (
@@ -34,5 +34,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  );
+  )
 }
