@@ -2,6 +2,7 @@ import { SearchIcon } from 'lucide-react'
 import Image from 'next/image'
 
 import { BarberShopItem } from '@/components/app/barbershop-item'
+import { Footer } from '@/components/app/footer'
 import { Header } from '@/components/app/header'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -12,6 +13,11 @@ import { prisma } from '@/lib/prisma'
 
 export default async function Home() {
   const barbershops = await prisma.barbershop.findMany()
+  const popularBarbershops = await prisma.barbershop.findMany({
+    orderBy: {
+      name: 'desc',
+    },
+  })
 
   return (
     <div>
@@ -30,6 +36,39 @@ export default async function Home() {
 
           <Button>
             <SearchIcon />
+          </Button>
+        </div>
+
+        {/* Busca rápida */}
+        <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          <Button className="gap-2" variant="secondary">
+            <Image src="/tesoura.svg" width={16} height={16} alt="Cabelo" />
+            Cabelo
+          </Button>
+
+          <Button className="gap-2" variant="secondary">
+            <Image src="/bigode.svg" width={16} height={16} alt="Barba" />
+            Barba
+          </Button>
+
+          <Button className="gap-2" variant="secondary">
+            <Image src="/gilete.svg" width={16} height={16} alt="Acabamento" />
+            Acabamento
+          </Button>
+
+          <Button className="gap-2" variant="secondary">
+            <Image src="/tesoura.svg" width={16} height={16} alt="Cabelo" />
+            Cabelo
+          </Button>
+
+          <Button className="gap-2" variant="secondary">
+            <Image src="/bigode.svg" width={16} height={16} alt="Barba" />
+            Barba
+          </Button>
+
+          <Button className="gap-2" variant="secondary">
+            <Image src="/gilete.svg" width={16} height={16} alt="Acabamento" />
+            Acabamento
           </Button>
         </div>
 
@@ -79,14 +118,30 @@ export default async function Home() {
             Recomendados
           </h1>
 
-          <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
             {/* Enviado os dados da barbearia como propriedade */}
             {barbershops.map((barbershop) => (
               <BarberShopItem key={barbershop.id} barbershop={barbershop} />
             ))}
           </div>
         </div>
+
+        {/* Populares */}
+        <div className="flex flex-col gap-3">
+          <h1 className="text-xs font-bold uppercase text-muted-foreground">
+            Populares
+          </h1>
+
+          <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+            {/* Enviado os dados da barbearia como propriedade */}
+            {popularBarbershops.map((barbershop) => (
+              <BarberShopItem key={barbershop.id} barbershop={barbershop} />
+            ))}
+          </div>
+        </div>
       </div>
+
+      <Footer />
     </div>
   )
 }
