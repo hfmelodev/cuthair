@@ -3,7 +3,6 @@ import Image from 'next/image'
 
 import { BarberShopItem } from '@/components/app/barbershop-item'
 import { BookingItem } from '@/components/app/booking-item'
-import { Footer } from '@/components/app/footer'
 import { Header } from '@/components/app/header'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -96,8 +95,6 @@ export default async function Home() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   )
 }

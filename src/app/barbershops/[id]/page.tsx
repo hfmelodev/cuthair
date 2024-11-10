@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+import { PhoneItem } from '@/components/app/phone-item'
 import { ServiceItem } from '@/components/app/service-item'
 import { Button } from '@/components/ui/button'
 import { prisma } from '@/lib/prisma'
@@ -92,6 +93,15 @@ export default async function Barbershops({ params }: BarbershopsProps) {
             key={service.id}
             service={JSON.parse(JSON.stringify(service))}
           />
+        ))}
+      </div>
+
+      {/* Contatos */}
+      <div className="space-y-3 border-b p-5 pb-12">
+        <h1 className="text-xs uppercase text-muted-foreground">Contato</h1>
+
+        {barbershop.phones.map((phone, i) => (
+          <PhoneItem key={i} phone={phone} />
         ))}
       </div>
     </div>

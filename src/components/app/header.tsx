@@ -1,3 +1,5 @@
+'use client'
+
 import { MenuIcon, Scissors } from 'lucide-react'
 
 import { Button } from '../ui/button'
