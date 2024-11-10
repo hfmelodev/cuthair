@@ -47,6 +47,7 @@ export default async function Home() {
                 width={16}
                 height={16}
                 alt={option.title}
+                priority
               />
               {option.title}
             </Button>
@@ -58,8 +59,9 @@ export default async function Home() {
           <Image
             alt="Agende nos melhores com CutHair"
             src="/banner-home.svg"
-            fill
             className="rounded-xl object-cover"
+            fill
+            priority
           />
         </div>
 

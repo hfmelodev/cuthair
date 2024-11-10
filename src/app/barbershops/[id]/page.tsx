@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+import { ServiceItem } from '@/components/app/service-item'
 import { Button } from '@/components/ui/button'
 import { prisma } from '@/lib/prisma'
 
@@ -17,6 +18,9 @@ export default async function Barbershops({ params }: BarbershopsProps) {
   const barbershop = await prisma.barbershop.findUnique({
     where: {
       id: params.id,
+    },
+    include: {
+      services: true,
     },
   })
 
@@ -33,6 +37,7 @@ export default async function Barbershops({ params }: BarbershopsProps) {
           className="object-cover"
           alt={barbershop.name}
           fill
+          priority
         />
 
         <Button
@@ -78,8 +83,16 @@ export default async function Barbershops({ params }: BarbershopsProps) {
       </div>
 
       {/* Serviços */}
-      <div className="space-y-2 border-b p-5">
+      <div className="space-y-3 border-b p-5">
         <h1 className="text-xs uppercase text-muted-foreground">Serviços</h1>
+
+        {/* Passando os serviços das barbearias como propriedade */}
+        {barbershop.services.map((service) => (
+          <ServiceItem
+            key={service.id}
+            service={JSON.parse(JSON.stringify(service))}
+          />
+        ))}
       </div>
     </div>
   )

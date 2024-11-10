@@ -1,3 +1,5 @@
+'use client'
+
 import type { Barbershop } from '@prisma/client'
 import { StarIcon } from 'lucide-react'
 import Image from 'next/image'
@@ -22,6 +24,7 @@ export function BarberShopItem({ barbershop }: BarberShopItemProps) {
             className="rounded-2xl object-cover"
             src={barbershop.imageUrl}
             alt={barbershop.name}
+            priority
           />
 
           <Badge

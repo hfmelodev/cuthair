@@ -11,7 +11,7 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: 'CutHair',
   icons: {
-    icon: 'scissors.svg',
+    icon: '/scissors.svg',
   },
 }
 
