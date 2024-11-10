@@ -1,6 +1,7 @@
 import type { Barbershop } from '@prisma/client'
 import { StarIcon } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
@@ -37,8 +38,12 @@ export function BarberShopItem({ barbershop }: BarberShopItemProps) {
           <div className="truncate font-semibold">{barbershop.name}</div>
           <p className="truncate text-muted-foreground">{barbershop.address}</p>
 
-          <Button variant="secondary" className="mt-3 w-full font-semibold">
-            Reservar
+          <Button
+            variant="secondary"
+            className="mt-3 w-full font-semibold"
+            asChild
+          >
+            <Link href={`/barbershops/${barbershop.id}`}>Reservar</Link>
           </Button>
         </div>
       </CardContent>
