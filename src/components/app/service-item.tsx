@@ -28,7 +28,7 @@ export function ServiceItem({ service }: ServiceItemProps) {
         </div>
 
         {/* Texto */}
-        <div className="space-y-2">
+        <div className="w-full space-y-2">
           <h3 className="font-semibold">{service.name}</h3>
           <p className="text-sm text-muted-foreground">{service.description}</p>
 

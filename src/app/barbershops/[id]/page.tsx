@@ -5,7 +5,9 @@ import { notFound } from 'next/navigation'
 
 import { PhoneItem } from '@/components/app/phone-item'
 import { ServiceItem } from '@/components/app/service-item'
+import { SidebarSheet } from '@/components/app/sidebar-sheet'
 import { Button } from '@/components/ui/button'
+import { Sheet, SheetTrigger } from '@/components/ui/sheet'
 import { prisma } from '@/lib/prisma'
 
 interface BarbershopsProps {
@@ -52,13 +54,20 @@ export default async function Barbershops({ params }: BarbershopsProps) {
           </Link>
         </Button>
 
-        <Button
-          size="icon"
-          variant="secondary"
-          className="absolute right-4 top-4"
-        >
-          <MenuIcon />
-        </Button>
+        {/* Abre uma aba da esquerda para direita */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              size="icon"
+              variant="outline"
+              className="absolute right-4 top-4"
+            >
+              <MenuIcon />
+            </Button>
+          </SheetTrigger>
+
+          <SidebarSheet />
+        </Sheet>
       </div>
 
       {/* Texto */}
