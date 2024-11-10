@@ -1,11 +1,20 @@
-import { CalendarIcon, HomeIcon, LogOutIcon } from 'lucide-react'
+import { Google } from '@mui/icons-material'
+import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { quickSearchOptions } from '@/constants/search'
 
-import { Avatar, AvatarImage } from '../ui/avatar'
+// import { Avatar, AvatarImage } from '../ui/avatar'
 import { Button } from '../ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog'
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet'
 
 export function SidebarSheet() {
@@ -16,15 +25,38 @@ export function SidebarSheet() {
       </SheetHeader>
 
       {/* Perfil */}
-      <div className="flex items-center gap-2 border-b py-5">
-        <Avatar className="border-2 border-primary">
+      <div className="flex items-center justify-between gap-2 border-b py-5">
+        <h2 className="font-bold">Olá, faça seu login!</h2>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button size="icon">
+              <LogInIcon />
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent className="w-[90%]">
+            <DialogHeader>
+              <DialogTitle>Faça login na plataforma</DialogTitle>
+              <DialogDescription>
+                Conect-se usando sua conta do Google
+              </DialogDescription>
+            </DialogHeader>
+
+            <Button className="font-bold" variant="outline">
+              <Google />
+              Google
+            </Button>
+          </DialogContent>
+        </Dialog>
+        {/* <Avatar className="border-2 border-primary">
           <AvatarImage src="https://github.com/hfmelodev.png" />
         </Avatar>
 
         <div>
           <p className="font-bold">Hilquias Ferreira Melo</p>
           <p className="text-xs">hilquiasfmelo@gmail.com</p>
-        </div>
+        </div> */}
       </div>
 
       {/* Início */}
