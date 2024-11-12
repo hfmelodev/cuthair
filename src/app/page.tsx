@@ -1,11 +1,10 @@
-import { SearchIcon } from 'lucide-react'
 import Image from 'next/image'
 
 import { BarberShopItem } from '@/components/app/barbershop-item'
 import { BookingItem } from '@/components/app/booking-item'
 import { Header } from '@/components/app/header'
+import { Search } from '@/components/app/search'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { quickSearchOptions } from '@/constants/search'
 import { prisma } from '@/lib/prisma'
 
@@ -29,13 +28,8 @@ export default async function Home() {
         </div>
 
         {/* Busca */}
-        <div className="flex items-center gap-2">
-          <Input placeholder="Faça sua busca..." />
 
-          <Button>
-            <SearchIcon />
-          </Button>
-        </div>
+        <Search />
 
         {/* Busca rápida */}
         <div className="flex gap-3 overflow-x-auto scrollbar-none">
