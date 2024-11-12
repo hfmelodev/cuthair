@@ -15,7 +15,6 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import { quickSearchOptions } from '@/constants/search'
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-// import { Avatar, AvatarImage } from '../ui/avatar'
 import { Button } from '../ui/button'
 import {
   Dialog,
@@ -113,16 +112,20 @@ export function SidebarSheet() {
       {/* Opções */}
       <div className="flex flex-col gap-2 border-b py-5">
         {quickSearchOptions.map((option, i) => (
-          <Button key={i} className="justify-start gap-2" variant="ghost">
-            <Image
-              src={option.imageUrl}
-              height={18}
-              width={18}
-              priority
-              alt={option.title}
-            />
-            {option.title}
-          </Button>
+          <SheetClose key={i} asChild>
+            <Button className="justify-start gap-2" variant="ghost" asChild>
+              <Link href={`/barbershops?service=${option.title}`}>
+                <Image
+                  src={option.imageUrl}
+                  height={18}
+                  width={18}
+                  priority
+                  alt={option.title}
+                />
+                {option.title}
+              </Link>
+            </Button>
+          </SheetClose>
         ))}
       </div>
 

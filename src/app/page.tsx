@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { BarberShopItem } from '@/components/app/barbershop-item'
 import { BookingItem } from '@/components/app/booking-item'
@@ -34,15 +35,22 @@ export default async function Home() {
         {/* Busca rápida */}
         <div className="flex gap-3 overflow-x-auto scrollbar-none">
           {quickSearchOptions.map((option) => (
-            <Button key={option.title} className="gap-2" variant="secondary">
-              <Image
-                src={option.imageUrl}
-                width={16}
-                height={16}
-                alt={option.title}
-                priority
-              />
-              {option.title}
+            <Button
+              key={option.title}
+              className="gap-2"
+              variant="secondary"
+              asChild
+            >
+              <Link href={`/barbershops?service=${option.title}`}>
+                <Image
+                  src={option.imageUrl}
+                  width={16}
+                  height={16}
+                  alt={option.title}
+                  priority
+                />
+                {option.title}
+              </Link>
             </Button>
           ))}
         </div>
