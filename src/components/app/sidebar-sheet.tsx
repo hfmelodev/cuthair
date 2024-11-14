@@ -1,6 +1,5 @@
 'use client'
 
-import { Google } from '@mui/icons-material'
 import {
   CalendarIcon,
   HomeIcon,
@@ -10,28 +9,18 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 
 import { quickSearchOptions } from '@/constants/search'
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Button } from '../ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../ui/dialog'
+import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog'
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet'
+import { SingInDialog } from './sing-in-dialog'
 
 export function SidebarSheet() {
   const { data } = useSession()
-
-  async function handleLoginGoogle() {
-    await signIn('google')
-  }
 
   async function handleLogoutUserGoogle() {
     await signOut()
@@ -55,22 +44,9 @@ export function SidebarSheet() {
                 </Button>
               </DialogTrigger>
 
+              {/* Renderiza o componente de login */}
               <DialogContent className="w-[90%]">
-                <DialogHeader>
-                  <DialogTitle>Faça login na plataforma</DialogTitle>
-                  <DialogDescription>
-                    Conect-se usando sua conta do Google
-                  </DialogDescription>
-                </DialogHeader>
-
-                <Button
-                  className="font-bold"
-                  variant="outline"
-                  onClick={handleLoginGoogle}
-                >
-                  <Google />
-                  Google
-                </Button>
+                <SingInDialog />
               </DialogContent>
             </Dialog>
           </>
