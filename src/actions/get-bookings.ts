@@ -10,10 +10,11 @@ interface GetBookingsProps {
   date: Date
 }
 
-export async function getBooking({ date }: GetBookingsProps) {
+export async function getBooking({ date, serviceId }: GetBookingsProps) {
   // Consulta ao banco de dados para buscar reservas com uma data específica
   const bookings = await prisma.booking.findMany({
     where: {
+      serviceId, // Filtrar pelo serviço específico
       date: {
         lte: endOfDay(date), // Limite superior para a busca: fim do dia
         gte: startOfDay(date), // Limite inferior para a busca: início do dia
@@ -21,7 +22,7 @@ export async function getBooking({ date }: GetBookingsProps) {
     },
   })
 
+  revalidatePath('/barbershops/[id')
+
   return bookings
 }
-
-revalidatePath('/barbershops/[id')

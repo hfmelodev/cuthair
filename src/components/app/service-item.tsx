@@ -127,7 +127,6 @@ export function ServiceItem({ service, barbershop }: ServiceItemProps) {
 
       await createBooking({
         serviceId: service.id,
-        userId: (data?.user as any).id,
         date: fullSelectedDate,
       })
 
@@ -142,6 +141,14 @@ export function ServiceItem({ service, barbershop }: ServiceItemProps) {
       })
     }
   }
+
+  function isDayDisabled(date: Date, disabledDays: number[]) {
+    // Verifica se o dia da semana está na lista de dias desabilitados
+    const day = date.getDay() // 0 é domingo, 6 é sábado
+    return disabledDays.includes(day)
+  }
+
+  const disabledDaysOfWeek = [0, 6] // Desabilita apenas domingo e sábado
 
   return (
     <>
@@ -196,6 +203,9 @@ export function ServiceItem({ service, barbershop }: ServiceItemProps) {
                       selected={selectedDay}
                       onSelect={handleDateSelect}
                       fromDate={new Date()} // Desabilita os dias passados
+                      disabled={(date) =>
+                        isDayDisabled(date, disabledDaysOfWeek)
+                      } // Passa os dias desabilitados
                       styles={{
                         head_cell: {
                           width: '100%',
