@@ -95,20 +95,22 @@ export default async function Home() {
         </div>
 
         {/* Agendamentos */}
-        <div className="flex flex-col gap-3">
-          <h2 className="text-xs font-bold uppercase text-muted-foreground">
-            Agendamentos
-          </h2>
+        {fetchLoggedInUserBookings.length > 0 && (
+          <div className="flex flex-col gap-3">
+            <h2 className="text-xs font-bold uppercase text-muted-foreground">
+              Agendamentos
+            </h2>
 
-          <div className="flex gap-3 overflow-x-auto scrollbar-none">
-            {fetchLoggedInUserBookings.map((booking) => (
-              <BookingItem
-                key={booking.id}
-                booking={JSON.parse(JSON.stringify(booking))}
-              />
-            ))}
+            <div className="flex gap-3 overflow-x-auto scrollbar-none">
+              {fetchLoggedInUserBookings.map((booking) => (
+                <BookingItem
+                  key={booking.id}
+                  booking={JSON.parse(JSON.stringify(booking))}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Recomendados */}
         <div className="flex flex-col gap-3">

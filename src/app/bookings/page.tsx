@@ -58,25 +58,33 @@ export default async function Bookings() {
       <div className="space-y-3 p-5">
         <h1 className="text-xl font-bold">Agendamentos</h1>
 
-        <h2 className="text-xs font-bold uppercase text-muted-foreground">
-          Confirmados
-        </h2>
-        {confirmedLoggedInUserBookings.map((booking) => (
-          <BookingItem
-            key={booking.id}
-            booking={JSON.parse(JSON.stringify(booking))}
-          />
-        ))}
+        {confirmedLoggedInUserBookings.length > 0 && (
+          <>
+            <h2 className="text-xs font-bold uppercase text-muted-foreground">
+              Confirmados
+            </h2>
+            {confirmedLoggedInUserBookings.map((booking) => (
+              <BookingItem
+                key={booking.id}
+                booking={JSON.parse(JSON.stringify(booking))}
+              />
+            ))}
+          </>
+        )}
 
-        <h2 className="text-xs font-bold uppercase text-muted-foreground">
-          Finalizados
-        </h2>
-        {concludedLoggedInUserBookings.map((booking) => (
-          <BookingItem
-            key={booking.id}
-            booking={JSON.parse(JSON.stringify(booking))}
-          />
-        ))}
+        {concludedLoggedInUserBookings.length > 0 && (
+          <>
+            <h2 className="text-xs font-bold uppercase text-muted-foreground">
+              Finalizados
+            </h2>
+            {concludedLoggedInUserBookings.map((booking) => (
+              <BookingItem
+                key={booking.id}
+                booking={JSON.parse(JSON.stringify(booking))}
+              />
+            ))}
+          </>
+        )}
       </div>
     </>
   )
