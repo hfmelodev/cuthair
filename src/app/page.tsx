@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { quickSearchOptions } from '@/constants/search'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { formatCapitalizedDate } from '@/utils/format-capitalized-date'
 
 export default async function Home() {
   const barbershops = await prisma.barbershop.findMany()
@@ -50,10 +51,12 @@ export default async function Home() {
         {/* Texto */}
         <div>
           {session?.user && (
-            <h2 className="text-xl font-bold">Olá, {session?.user?.name}!</h2>
+            <h2 className="text-xl font-bold">
+              Olá, {session?.user?.name?.split(' ')[0]}!
+            </h2>
           )}
 
-          <p>Sábado, 09 de Novembro.</p>
+          <p>{formatCapitalizedDate(new Date())}</p>
         </div>
 
         {/* Busca */}

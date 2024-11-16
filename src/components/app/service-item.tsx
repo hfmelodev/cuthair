@@ -1,15 +1,16 @@
 'use client'
 
 import type { Barbershop, BarbershopService, Booking } from '@prisma/client'
-import { format, set } from 'date-fns'
+import { isPast, set } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
 import { createBooking } from '@/actions/create-booking'
 import { getBooking } from '@/actions/get-bookings'
+import { formatCapitalizedDate } from '@/utils/format-capitalized-date'
 import { formatCurrency } from '@/utils/format-currency'
 import { TIME_LIST } from '@/utils/time-list'
 
@@ -37,6 +38,12 @@ function getTimeList(bookings: Booking[]) {
     // Divide o horário no formato "HH:mm" em horas e minutos
     const hour = Number(time.split(':')[0])
     const minutes = Number(time.split(':')[1])
+
+    const timeIsOnThePast = isPast(set(new Date(), { hours: hour, minutes }))
+
+    if (timeIsOnThePast) {
+      return false
+    }
 
     // Verifica se existe uma reserva no horário atual (hora e minutos)
     const hasBookingOnCurrentTime = bookings.some(
@@ -150,6 +157,12 @@ export function ServiceItem({ service, barbershop }: ServiceItemProps) {
 
   const disabledDaysOfWeek = [0, 6] // Desabilita apenas domingo e sábado
 
+  const timeList = useMemo(() => {
+    if (!selectedDay) return []
+
+    return getTimeList(dayBookings)
+  }, [selectedDay, dayBookings])
+
   return (
     <>
       <Card>
@@ -234,19 +247,25 @@ export function ServiceItem({ service, barbershop }: ServiceItemProps) {
 
                   {/* Horários */}
                   {selectedDay && (
-                    <div className="flex gap-3 overflow-x-auto border-b p-5 scrollbar-none">
-                      {getTimeList(dayBookings).map((time, i) => (
-                        <Button
-                          key={i}
-                          variant={
-                            selectedTime === time ? 'default' : 'outline'
-                          }
-                          className="rounded-full"
-                          onClick={() => handleTimeSelect(time)}
-                        >
-                          {time}
-                        </Button>
-                      ))}
+                    <div className="flex gap-3 overflow-x-auto border-b p-5 text-center scrollbar-none">
+                      {timeList.length > 0 ? (
+                        timeList.map((time, i) => (
+                          <Button
+                            key={i}
+                            variant={
+                              selectedTime === time ? 'default' : 'outline'
+                            }
+                            className="rounded-full"
+                            onClick={() => handleTimeSelect(time)}
+                          >
+                            {time}
+                          </Button>
+                        ))
+                      ) : (
+                        <p className="mx-auto text-xs text-muted-foreground">
+                          Não há mais reservas para esse dia.
+                        </p>
+                      )}
                     </div>
                   )}
 
@@ -266,9 +285,7 @@ export function ServiceItem({ service, barbershop }: ServiceItemProps) {
                             Data
                           </h2>
                           <p className="text-sm">
-                            {format(selectedDay, "d 'de' MMMM", {
-                              locale: ptBR,
-                            })}
+                            {formatCapitalizedDate(selectedDay)}
                           </p>
                         </div>
 
