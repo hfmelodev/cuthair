@@ -101,7 +101,7 @@ export default async function Barbershops({ params }: BarbershopsProps) {
           <ServiceItem
             key={service.id}
             service={JSON.parse(JSON.stringify(service))}
-            barbershop={barbershop}
+            barbershop={JSON.parse(JSON.stringify(barbershop))}
           />
         ))}
       </div>

@@ -8,6 +8,7 @@ import { Header } from '@/components/app/header'
 import { Search } from '@/components/app/search'
 import { Button } from '@/components/ui/button'
 import { quickSearchOptions } from '@/constants/search'
+import { getConfirmedBookings } from '@/data-access/get-confirmed-bookings'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { formatCapitalizedDate } from '@/utils/format-capitalized-date'
@@ -22,26 +23,7 @@ export default async function Home() {
 
   const session = await getServerSession(authOptions)
 
-  const fetchLoggedInUserBookings = session?.user
-    ? await prisma.booking.findMany({
-        where: {
-          userId: (session.user as any).id,
-          date: {
-            gte: new Date(), // Datas no futuro
-          },
-        },
-        include: {
-          service: {
-            include: {
-              barbershop: true,
-            },
-          },
-        },
-        orderBy: {
-          date: 'asc',
-        },
-      })
-    : []
+  const fetchLoggedInUserBookings = await getConfirmedBookings()
 
   return (
     <div>

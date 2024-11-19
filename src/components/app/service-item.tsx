@@ -10,7 +10,6 @@ import { toast } from 'sonner'
 
 import { createBooking } from '@/actions/create-booking'
 import { getBooking } from '@/actions/get-bookings'
-import { formatCapitalizedDate } from '@/utils/format-capitalized-date'
 import { formatCurrency } from '@/utils/format-currency'
 import { TIME_LIST } from '@/utils/time-list'
 
@@ -26,6 +25,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '../ui/sheet'
+import { BookingSummary } from './booking-summary'
 import { SingInDialog } from './sing-in-dialog'
 
 interface ServiceItemProps {
@@ -119,22 +119,22 @@ export function ServiceItem({ service, barbershop }: ServiceItemProps) {
     setSelectedTime(time)
   }
 
+  const selectedDate = useMemo(() => {
+    if (!selectedDay || !selectedTime) return
+
+    return set(selectedDay, {
+      hours: Number(selectedTime.split(':')[0]),
+      minutes: Number(selectedTime.split(':')[1]),
+    })
+  }, [selectedDay, selectedTime])
+
   async function handleCreateBooking() {
     try {
-      if (!selectedDay || !selectedTime) return
-
-      // Separa a hora e o minuto. Ex: ["09":"00"]
-      const hour = Number(selectedTime.split(':')[0])
-      const minute = Number(selectedTime.split(':')[1])
-
-      const fullSelectedDate = set(selectedDay, {
-        minutes: minute,
-        hours: hour,
-      })
+      if (!selectedDate) return
 
       await createBooking({
         serviceId: service.id,
-        date: fullSelectedDate,
+        date: selectedDate,
       })
 
       handleBookingSheetOpenChange()
@@ -270,40 +270,12 @@ export function ServiceItem({ service, barbershop }: ServiceItemProps) {
                   )}
 
                   {/* Informações da Reserva */}
-                  {selectedDay && selectedTime && (
-                    <Card className="m-5">
-                      <CardContent className="space-y-3 p-3">
-                        <div className="flex items-center justify-between">
-                          <h2 className="font-bold">{service.name}</h2>
-                          <p className="text-sm font-bold">
-                            {formatCurrency(Number(service.price))}
-                          </p>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <h2 className="text-sm text-muted-foreground">
-                            Data
-                          </h2>
-                          <p className="text-sm">
-                            {formatCapitalizedDate(selectedDay)}
-                          </p>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <h2 className="text-sm text-muted-foreground">
-                            Horário
-                          </h2>
-                          <p className="text-sm">{selectedTime}</p>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <h2 className="text-sm text-muted-foreground">
-                            Barbearia
-                          </h2>
-                          <p className="text-sm">{barbershop.name}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
+                  {selectedDate && (
+                    <BookingSummary
+                      barbershop={barbershop}
+                      service={service}
+                      selectedDate={selectedDate}
+                    />
                   )}
 
                   <SheetFooter className="m-5 mt-5">

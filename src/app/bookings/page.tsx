@@ -1,55 +1,12 @@
-import { notFound } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-
 import { BookingItem } from '@/components/app/booking-item'
 import { Header } from '@/components/app/header'
-import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
+import { getConcludedBookings } from '@/data-access/get-concluded-bookings'
+import { getConfirmedBookings } from '@/data-access/get-confirmed-bookings'
 
 export default async function Bookings() {
-  const session = await getServerSession(authOptions)
+  const confirmedLoggedInUserBookings = await getConfirmedBookings()
 
-  if (!session?.user) {
-    return notFound()
-  }
-
-  const confirmedLoggedInUserBookings = await prisma.booking.findMany({
-    where: {
-      userId: (session.user as any).id,
-      date: {
-        gte: new Date(), // Datas no futuro
-      },
-    },
-    include: {
-      service: {
-        include: {
-          barbershop: true,
-        },
-      },
-    },
-    orderBy: {
-      date: 'asc',
-    },
-  })
-
-  const concludedLoggedInUserBookings = await prisma.booking.findMany({
-    where: {
-      userId: (session.user as any).id,
-      date: {
-        lte: new Date(), // Datas no passado
-      },
-    },
-    include: {
-      service: {
-        include: {
-          barbershop: true,
-        },
-      },
-    },
-    orderBy: {
-      date: 'desc',
-    },
-  })
+  const concludedLoggedInUserBookings = await getConcludedBookings()
 
   return (
     <>
@@ -57,6 +14,13 @@ export default async function Bookings() {
 
       <div className="space-y-3 p-5">
         <h1 className="text-xl font-bold">Agendamentos</h1>
+
+        {confirmedLoggedInUserBookings.length === 0 &&
+          confirmedLoggedInUserBookings.length === 0 && (
+            <p className="flex items-center justify-center text-sm text-muted-foreground">
+              Você não tem agendamentos.
+            </p>
+          )}
 
         {confirmedLoggedInUserBookings.length > 0 && (
           <>
